@@ -19,7 +19,7 @@ def create_sobol_matrices(A, B):
         
     return samples_AB
 
-def compute_total_indices(Y_A, Y_AB):
+def compute_total_indices(f_A, f_AB):
     """computes the total-effect sobol indices using Jansen's estimator.
 
     Args:
@@ -29,7 +29,7 @@ def compute_total_indices(Y_A, Y_AB):
     Returns:
         np.array((N,)): array of total Sobol indices for each input variable.#
     """
-    N = Y_A.shape[0]
-    VarY = np.var(Y_A)
-    Ti = (1/(2*N) * np.sum((Y_A - Y_AB)**2, axis=1)) / VarY
+    N = f_A.shape[0]
+    Var_f_A = np.var(f_A)
+    Ti = (1/(2*N) * np.sum((f_A - f_AB)**2, axis=1)) / Var_f_A
     return Ti

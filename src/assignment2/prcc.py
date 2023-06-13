@@ -14,17 +14,22 @@ def partial_corrcoef(X, y):
     X = np.c_[X, np.ones(dim)]
     
     for i in range(N):
+        # construct partial matrix without column i
         X_partial = np.delete(X, i, 1)
         x_i = X[:, i]
         
-        wx_i = lin.lstsq(X_partial, x_i, rcond=-1)[0]
-        x_res = x_i -  X_partial @ wx_i
+        # remove linear dependencies in xi
+        wx_i = lin.lstsq(X_partial, x_i, rcond=-1)[0]  # approximate weights of xi by linear regression
+        x_res = x_i -  X_partial @ wx_i  # subtract influence of other variable from xi
 
-        wy_i = lin.lstsq(X_partial, y, rcond=-1)[0]
-        y_res = y - X_partial @ wy_i
+        # remove linear dependencies in yi
+        wy_i = lin.lstsq(X_partial, y, rcond=-1)[0]   # approximate weights of yi by linear regression
+        y_res = y - X_partial @ wy_i  # subtract influence of other variables from y
 
+        # compute pcc of variable xi
         pcc.append(x_res @ y_res / (np.sqrt(np.sum(x_res**2) * np.sum(y_res**2))))
 
+        
     return np.array(pcc).T
 
 def prcc(X, y):
