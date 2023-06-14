@@ -13,7 +13,7 @@ def create_sobol_matrices(A, B):
     samples_Ab = np.zeros((n, N, n))
     
     # create samples by switching ith column of A by ith column of B
-    for i in range(0, samples_Ab.shape[0]):
+    for i in range(n):
         samples_Ab[i,:,:] = A
         samples_Ab[i,:,i] = B[:,i]
         
