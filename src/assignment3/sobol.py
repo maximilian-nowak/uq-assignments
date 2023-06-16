@@ -50,8 +50,8 @@ def compute_QoIs_from_samples(X0, args):
         np.array((2, N)): G1 and G2
     """
     (N, S0, E0, i0, R0, C0), t = args
-    
     g1_results, g2_results = [], []
+
     # run model with sampled parameters and apply QoIs
     for beta, alpha, gamma, i0 in X0:
         S0 = N - i0
