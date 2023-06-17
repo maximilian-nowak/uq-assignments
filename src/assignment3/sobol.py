@@ -45,7 +45,8 @@ def compute_QoIs_from_samples(X0, args):
 
     Args:
         X0 (np.array(N, n)): matrix containing parameter combinations.
-
+        y0 (list): list of parameters for the seirc model.
+        t (list): time range for which to solve the seirc ODE.
     Returns:
         np.array((2, N)): G1 and G2
     """

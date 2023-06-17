@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 
 class seir_model(object):
     """ODE solver for the SEIR model"""
+    
     def __init__(self, x0):
         if len(x0)!=4:
             raise Exception("Error in x0: expected 4 parameters, got %i" % len(x0))
