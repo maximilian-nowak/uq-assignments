@@ -10,7 +10,7 @@ def create_sobol_matrices(A, B):
     """
     # ensure correct input shapes
     if A.shape != B.shape:
-        raise Exception("Error: matrices A and B must be of same shape.")
+        raise Exception("ValueError: matrices A and B must be of same shape.")
     
     # construct list of matrices A with length of columns
     N, n = A.shape
@@ -24,7 +24,7 @@ def create_sobol_matrices(A, B):
     return samples_Ab
 
 
-def compute_total_indices(f_A, f_Ab):
+def compute_total_indices(f_A, f_AB):
     """computes the total-effect sobol indices using Jansen's estimator.
 
     Args:
@@ -34,9 +34,12 @@ def compute_total_indices(f_A, f_Ab):
     Returns:
         np.array((N,)): array of total Sobol indices for each input variable.
     """
+    if f_A.shape[0] != f_AB.shape[1]:
+        raise Exception("ValueError: vector f_A %s and matrix f_AB %s not aligned." % (f_A.shape, f_AB.shape))
+    
     N = f_A.shape[0]
     var_f_A = np.var(f_A)
-    Ti = (1/(2*N) * np.sum((f_A - f_Ab)**2, axis=1)) / var_f_A
+    Ti = (1/(2*N) * np.sum((f_A - f_AB)**2, axis=1)) / var_f_A
     return Ti
 
 def compute_QoIs_from_samples(X0, args):
@@ -50,6 +53,9 @@ def compute_QoIs_from_samples(X0, args):
     Returns:
         np.array((2, N)): G1 and G2
     """
+    if not len(X0.shape) == 2 or X0.shape[1] != 4:
+        raise Exception("ValueError: matrix X0 %s must be of shape (N, 4)." % str(X0.shape))
+    
     (N, S0, E0, i0, R0, C0), t = args
     g1_results, g2_results = [], []
 
