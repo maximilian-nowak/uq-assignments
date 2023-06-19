@@ -14,14 +14,14 @@ def create_sobol_matrices(A, B):
     
     # construct list of matrices A with length of columns
     N, n = A.shape
-    samples_Ab = np.zeros((n, N, n))
+    samples_AB = np.zeros((n, N, n))
     
     # create samples by switching ith column of A by ith column of B
     for i in range(n):
-        samples_Ab[i,:,:] = A
-        samples_Ab[i,:,i] = B[:,i]
+        samples_AB[i,:,:] = A
+        samples_AB[i,:,i] = B[:,i]
         
-    return samples_Ab
+    return samples_AB
 
 
 def compute_total_indices(f_A, f_AB):
