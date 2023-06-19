@@ -34,9 +34,11 @@ def compute_total_indices(f_A, f_AB):
     Returns:
         np.array((N,)): array of total Sobol indices for each input variable.
     """
+    # ensure correct input shapes
     if f_A.shape[0] != f_AB.shape[1]:
         raise Exception("ValueError: vector f_A %s and matrix f_AB %s not aligned." % (f_A.shape, f_AB.shape))
     
+    # apply jansen's formula
     N = f_A.shape[0]
     var_f_A = np.var(f_A)
     Ti = (1/(2*N) * np.sum((f_A - f_AB)**2, axis=1)) / var_f_A
@@ -53,6 +55,7 @@ def compute_QoIs_from_samples(X0, args):
     Returns:
         np.array((2, N)): G1 and G2
     """
+    # ensure X0 has enough columns to sample 4 parameters for seirc
     if not len(X0.shape) == 2 or X0.shape[1] != 4:
         raise Exception("ValueError: matrix X0 %s must be of shape (N, 4)." % str(X0.shape))
     
